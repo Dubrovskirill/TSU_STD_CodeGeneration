@@ -1,29 +1,42 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-#include <memory>
 #include <string>
+#include <vector>
+#include <memory>
 
+// Базовый класс для всех конструкций
 class Unit {
 public:
-    using Flags = unsigned int;
-public:
+    virtual std::string compile() const = 0;
     virtual ~Unit() = default;
-    virtual void add( const std::shared_ptr< Unit >& , Flags ) {
-        throw std::runtime_error( "Not supported" );
-    }
-    virtual std::string compile( unsigned int level = 0 ) const =
-        0;
-protected:
-    virtual std::string generateShift( unsigned int level ) const
-    {
-        static const auto DEFAULT_SHIFT = " ";
-        std::string result;
-        for( unsigned int i = 0; i < level; ++i ) {
-            result += DEFAULT_SHIFT;
-        }
-        return result;
-    }
 };
+
+// Перечисление для модификаторов доступа
+enum AccessModifier {
+    PUBLIC,
+    PROTECTED,
+    PRIVATE,
+    DEFAULT  // Для Java (package-private) и C# (internal)
+};
+
+
+class AbstractClassUnit : public Unit {
+public:
+    virtual void setClassModifiers(const std::vector<std::string>& modifiers) = 0;
+    virtual void add(const std::shared_ptr<Unit>& unit, AccessModifier access) = 0;
+};
+
+
+class AbstractMethodUnit : public Unit {
+public:
+    virtual void setModifiers(const std::vector<std::string>& modifiers) = 0;
+    virtual void add(const std::shared_ptr<Unit>& unit) = 0;
+};
+
+
+class AbstractPrintOperatorUnit : public Unit {
+};
+
 
 #endif // UNIT_H
