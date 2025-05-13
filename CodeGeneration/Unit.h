@@ -11,34 +11,35 @@ public:
     virtual std::string compile() const = 0;
     virtual ~Unit() = default;
 };
-
 // Перечисление для модификаторов доступа
-enum AccessModifier {
+enum class AccessModifier {
     PUBLIC,
     PROTECTED,
     PRIVATE,
-    DEFAULT,  // Для Java (package-private)
-    INTERNAL  // Для C# (internal)
+    DEFAULT,
+    INTERNAL
 };
 
 // Перечисление для модификаторов классов
-enum ClassModifier {
-    NONE = 0,
-    ABSTRACT = 1,
-    FINAL = 2,    // Java: final, C#: sealed
-    STATIC = 4    // C#: static
+enum class ClassModifier {
+    NONE,
+    ABSTRACT,
+    FINAL,
+    STATIC
 };
 
 // Перечисление для модификаторов методов
-enum MethodModifier {
-    METHOD_NONE = 0,
-    METHOD_STATIC = 1,
-    METHOD_ABSTRACT = 2,
-    METHOD_VIRTUAL = 4,
-    METHOD_OVERRIDE = 8, // C# only
-    METHOD_FINAL = 16,   // Java: final, C#: sealed
-    METHOD_CONST = 32    // C++ only
+enum class MethodModifier {
+    NONE,
+    STATIC,
+    ABSTRACT,
+    VIRTUAL,
+    OVERRIDE,
+    FINAL,
+    CONST
 };
+
+
 
 
 class AbstractClassUnit : public Unit {

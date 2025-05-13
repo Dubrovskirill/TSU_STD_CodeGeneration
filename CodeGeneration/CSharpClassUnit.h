@@ -22,11 +22,11 @@ public:
     void add(const std::shared_ptr<Unit>& unit, AccessModifier access) override {
         int index;
         switch (access) {
-        case PUBLIC: index = 0; break;
-        case PROTECTED: index = 1; break;
-        case PRIVATE: index = 2; break;
-        case DEFAULT: index = 3; break;
-        case INTERNAL: index = 4; break;
+        case AccessModifier::PUBLIC: index = 0; break;
+        case AccessModifier::PROTECTED: index = 1; break;
+        case AccessModifier::PRIVATE: index = 2; break;
+        case AccessModifier::DEFAULT: index = 3; break;
+        case AccessModifier::INTERNAL: index = 4; break;
         default:
             throw std::runtime_error("Invalid access modifier for C# class.");
         }

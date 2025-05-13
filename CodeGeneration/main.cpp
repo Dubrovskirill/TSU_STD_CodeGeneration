@@ -24,12 +24,12 @@ std::string generateProgram(const AbstractFactory& factory, const std::string& l
     // Метод 1: public, без модификаторов
     auto method1 = factory.createMethodUnit(method1Name, "void");
     method1->setModifiers({});
-    myClass->add(method1, PUBLIC);
+    myClass->add(method1, AccessModifier::PUBLIC);
 
     // Метод 2: private, static
     auto method2 = factory.createMethodUnit(method2Name, "void");
     method2->setModifiers({"static"});
-    myClass->add(method2, PRIVATE);
+    myClass->add(method2, AccessModifier::PRIVATE);
 
     // Метод 3: public, virtual (C++) или abstract (C#, Java)
     auto method3 = factory.createMethodUnit(method3Name, "void");
@@ -38,14 +38,14 @@ std::string generateProgram(const AbstractFactory& factory, const std::string& l
     } else {
         method3->setModifiers({"abstract"});
     }
-    myClass->add(method3, PUBLIC);
+    myClass->add(method3, AccessModifier::PUBLIC);
 
     // Метод 4: protected, static, с выводом текста
     auto method4 = factory.createMethodUnit(method4Name, "void");
     method4->setModifiers({"static"});
     auto printOp = factory.createPrintOperatorUnit("Hello, world!");
     method4->add(printOp);
-    myClass->add(method4, PROTECTED);
+    myClass->add(method4, AccessModifier::PROTECTED);
 
     // Добавляем точку входа для C# и Java
     std::string result = myClass->compile();
