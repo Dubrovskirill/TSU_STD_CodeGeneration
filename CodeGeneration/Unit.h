@@ -17,7 +17,27 @@ enum AccessModifier {
     PUBLIC,
     PROTECTED,
     PRIVATE,
-    DEFAULT  // Для Java (package-private) и C# (internal)
+    DEFAULT,  // Для Java (package-private)
+    INTERNAL  // Для C# (internal)
+};
+
+// Перечисление для модификаторов классов
+enum ClassModifier {
+    NONE = 0,
+    ABSTRACT = 1,
+    FINAL = 2,    // Java: final, C#: sealed
+    STATIC = 4    // C#: static
+};
+
+// Перечисление для модификаторов методов
+enum MethodModifier {
+    METHOD_NONE = 0,
+    METHOD_STATIC = 1,
+    METHOD_ABSTRACT = 2,
+    METHOD_VIRTUAL = 4,
+    METHOD_OVERRIDE = 8, // C# only
+    METHOD_FINAL = 16,   // Java: final, C#: sealed
+    METHOD_CONST = 32    // C++ only
 };
 
 
