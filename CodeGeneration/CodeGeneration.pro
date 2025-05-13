@@ -24,6 +24,10 @@ HEADERS += \
     CppFactory.h \
     CppMethodUnit.h \
     CppPrintOperatorUnit.h \
+    JavaClassUnit.h \
+    JavaFactory.h \
+    JavaMethodUnit.h \
+    JavaPrintOperatorUnit.h \
     Unit.h \
     ‎Unit.h \
     ‎Unit.h \
