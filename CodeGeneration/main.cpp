@@ -5,12 +5,13 @@
 #include "AbstractFactory.h"
 #include "CppFactory.h"
 #include "CSharpFactory.h"
+#include "JavaFactory.h"
 
 std::string generateProgram(const AbstractFactory& factory, const std::string& language) {
     auto myClass = factory.createClassUnit("MyClass");
 
-    // Устанавливаем модификаторы класса только для C#
-    if (language == "C#") {
+    // Устанавливаем модификаторы класса
+    if (language == "C#" || language == "Java") {
         myClass->setClassModifiers({"abstract"});
     }
 
@@ -30,7 +31,7 @@ std::string generateProgram(const AbstractFactory& factory, const std::string& l
     method2->setModifiers({"static"});
     myClass->add(method2, PRIVATE);
 
-    // Метод 3: public, virtual (C++) или abstract (C#)
+    // Метод 3: public, virtual (C++) или abstract (C#, Java)
     auto method3 = factory.createMethodUnit(method3Name, "void");
     if (language == "C++") {
         method3->setModifiers({"virtual", "const"});
@@ -46,11 +47,14 @@ std::string generateProgram(const AbstractFactory& factory, const std::string& l
     method4->add(printOp);
     myClass->add(method4, PROTECTED);
 
-    // Добавляем точку входа для C#
+    // Добавляем точку входа для C# и Java
     std::string result = myClass->compile();
     if (language == "C#") {
         result += "\nclass Program {\n    static void Main(string[] args) {\n";
         result += "        MyClass.TestFunc4();\n    }\n}\n";
+    } else if (language == "Java") {
+        result += "\nclass Main {\n    public static void main(String[] args) {\n";
+        result += "        MyClass.testFunc4();\n    }\n}\n";
     }
     return result;
 }
@@ -63,6 +67,10 @@ int main() {
     std::cout << "C# Code:\n" << std::string(40, '-') << "\n";
     CSharpFactory csharpFactory;
     std::cout << generateProgram(csharpFactory, "C#") << "\n";
+
+    std::cout << "Java Code:\n" << std::string(40, '-') << "\n";
+    JavaFactory javaFactory;
+    std::cout << generateProgram(javaFactory, "Java") << "\n";
 
     return 0;
 }
