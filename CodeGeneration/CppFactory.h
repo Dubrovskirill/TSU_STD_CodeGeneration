@@ -14,7 +14,6 @@
 #include "CppMethodUnit.h"
 #include "CppPrintOperatorUnit.h"
 
-
 class CppFactory : public AbstractFactory {
 public:
     std::shared_ptr<AbstractClassUnit> createClassUnit(const std::string& name) const override {
@@ -29,6 +28,10 @@ public:
     std::shared_ptr<AbstractPrintOperatorUnit> createPrintOperatorUnit(
         const std::string& text) const override {
         return std::make_shared<CppPrintOperatorUnit>(text);
+    }
+
+    std::shared_ptr<Unit> createMainUnit() const override {
+        return nullptr; // C++ не требует точки входа в данном контексте
     }
 };
 

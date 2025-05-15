@@ -52,14 +52,16 @@ public:
                     while (pos < unitCode.length()) {
                         size_t nextPos = unitCode.find('\n', pos);
                         if (nextPos == std::string::npos) {
-                            indentedCode += "    " + unitCode.substr(pos) + "\n";
+                            indentedCode += "    " + unitCode.substr(pos);
                             break;
                         }
                         indentedCode += "    " + unitCode.substr(pos, nextPos - pos) + "\n";
                         pos = nextPos + 1;
                     }
-                    if (i != 3) { // Для default не добавляем модификатор доступа
-                        result += "    " + accessStrings[i] + ":\n";
+                    std::string prefix = (i != 3) ? accessStrings[i] + " " : "";
+                    size_t methodStart = unitCode.find("void");
+                    if (methodStart != std::string::npos) {
+                        indentedCode.insert(indentedCode.find("void"), prefix);
                     }
                     result += indentedCode;
                 }

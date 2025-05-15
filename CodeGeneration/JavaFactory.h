@@ -7,10 +7,19 @@
 #include "JavaMethodUnit.h"
 #include "JavaPrintOperatorUnit.h"
 
+class JavaMainUnit : public Unit {
+public:
+    std::string compile() const override {
+        return "class Main {\n    public static void main(String[] args) {\n        MyClass.testFunc4();\n    }\n}\n";
+    }
+};
+
 class JavaFactory : public AbstractFactory {
 public:
     std::shared_ptr<AbstractClassUnit> createClassUnit(const std::string& name) const override {
-        return std::make_shared<JavaClassUnit>(name);
+        auto unit = std::make_shared<JavaClassUnit>(name);
+        unit->setClassModifiers({"abstract"}); // Устанавливаем abstract по умолчанию
+        return unit;
     }
 
     std::shared_ptr<AbstractMethodUnit> createMethodUnit(
@@ -21,6 +30,10 @@ public:
     std::shared_ptr<AbstractPrintOperatorUnit> createPrintOperatorUnit(
         const std::string& text) const override {
         return std::make_shared<JavaPrintOperatorUnit>(text);
+    }
+
+    std::shared_ptr<Unit> createMainUnit() const override {
+        return std::make_shared<JavaMainUnit>();
     }
 };
 

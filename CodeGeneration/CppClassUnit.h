@@ -36,19 +36,18 @@ public:
         const std::vector<std::string> accessStrings = {"public:", "protected:", "private:"};
         for (size_t i = 0; i < m_fields.size(); ++i) {
             if (!m_fields[i].empty()) {
-                result += "    " + accessStrings[i] + "\n";
+                result += accessStrings[i] + "\n";
                 for (const auto& unit : m_fields[i]) {
                     std::string unitCode = unit->compile();
-                    // Добавляем отступы для вложенного кода
                     std::string indentedCode;
                     size_t pos = 0;
                     while (pos < unitCode.length()) {
                         size_t nextPos = unitCode.find('\n', pos);
                         if (nextPos == std::string::npos) {
-                            indentedCode += "        " + unitCode.substr(pos) + "\n";
+                            indentedCode += "    " + unitCode.substr(pos) + "\n";
                             break;
                         }
-                        indentedCode += "        " + unitCode.substr(pos, nextPos - pos) + "\n";
+                        indentedCode += "    " + unitCode.substr(pos, nextPos - pos) + "\n";
                         pos = nextPos + 1;
                     }
                     result += indentedCode;
