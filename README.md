@@ -60,21 +60,6 @@ public class MyClass {
 }
 ```
 
-## Структура проекта
-
-- `main.cpp` — Точка входа программы, содержит функции `main` и `generateProgram`.
-- `Unit.h` — Определение базового класса `Unit`.
-- `ClassUnit.h` — Определение абстрактного класса `ClassUnit`.
-- `MethodUnit.h` — Определение абстрактного класса `MethodUnit`.
-- `PrintOperatorUnit.h` — Определение абстрактного класса `PrintOperatorUnit`.
-- `iFactory.h` — Определение интерфейса фабрики `iFactory`.
-- `CppFactory.h` — Реализация фабрики для C++.
-- `CSharpFactory.h` — Реализация фабрики для C#.
-- `JavaFactory.h` — Реализация фабрики для Java.
-- `CppClassUnit.h`, `CppMethodUnit.h`, `CppPrintOperatorUnit.h` — Классы для генерации C++ кода.
-- `CSharpClassUnit.h`, `CSharpMethodUnit.h`, `CSharpPrintOperatorUnit.h` — Классы для генерации C# кода.
-- `JavaClassUnit.h`, `JavaMethodUnit.h`, `JavaPrintOperatorUnit.h` — Классы для генерации Java кода.
-
 ## Сборка проекта
 
 Проект использует QMake и стандарт C++17.
