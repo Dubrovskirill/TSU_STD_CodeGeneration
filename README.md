@@ -15,47 +15,64 @@ CodeGenerator — это программа на C++, которая генер�
 ### C++ код
 ```cpp
 class MyClass {
-    public:
-        void testFunc1() {
+public:
+    void testFunc1() {
         }
-        virtual void testFunc3() {
+    virtual void testFunc3() = 0;
+protected:
+    static void testFunc4() {
+    std::cout << "Hello, world!" << std::endl;
         }
-    protected:
-        static void testFunc4() {
-            printf("Hello, world!\n");
-        }
-    private:
-        static void testFunc2() {
+private:
+    static void testFunc2() {
         }
 };
 ```
 
 ### C# код
 ```csharp
-public class MyClass {
-    public void testFunc1() {
-    }
-    public virtual void testFunc3() {
-    }
-    protected static void testFunc4() {
+namespace MyNamespace
+{
+abstract class MyClass
+{
+    public void TesttestFunc1() {
+        }
+    abstract public void TesttestFunc3() {
+        }
+    static protected void TesttestFunc4() {
         Console.WriteLine("Hello, world!");
-    }
-    private static void testFunc2() {
+        }
+    static private void TesttestFunc2() {
+        }
+}
+}
+
+class Program {
+    static void Main(string[] args) {
+        MyClass.TestFunc4();
     }
 }
 ```
 
 ### Java код
 ```java
-public class MyClass {
+package mypackage;
+
+abstract class MyClass {
     public void testFunc1() {
-    }
-    public void testFunc3() {
-    }
-    protected static void testFunc4() {
+        }
+    abstract public void testFunc3() {
+        }
+    static protected void testFunc4() {
         System.out.println("Hello, world!");
-    }
-    private static void testFunc2() {
+        }
+    static private void testFunc2() {
+        }
+}
+
+class Main {
+    public static void main(String[] args) {
+        MyClass.testFunc4();
     }
 }
 ```
