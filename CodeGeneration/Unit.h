@@ -11,8 +11,9 @@ public:
     virtual std::string compile() const = 0;
     virtual ~Unit() = default;
 };
+
 // Перечисление для модификаторов доступа
-enum class AccessModifier {
+enum AccessModifier {
     PUBLIC,
     PROTECTED,
     PRIVATE,
@@ -21,22 +22,22 @@ enum class AccessModifier {
 };
 
 // Перечисление для модификаторов классов
-enum class ClassModifier {
-    NONE,
-    ABSTRACT,
-    FINAL,
-    STATIC
+enum ClassModifier {
+    CLASS_NONE = 0,
+    CLASS_ABSTRACT = 1 << 0,
+    CLASS_FINAL = 1 << 1,
+    CLASS_STATIC = 1 << 2
 };
 
 // Перечисление для модификаторов методов
-enum class MethodModifier {
-    NONE,
-    STATIC,
-    ABSTRACT,
-    VIRTUAL,
-    OVERRIDE,
-    FINAL,
-    CONST
+enum MethodModifier {
+    METHOD_NONE = 0,
+    METHOD_STATIC = 1 << 0,
+    METHOD_ABSTRACT = 1 << 1,
+    METHOD_VIRTUAL = 1 << 2,
+    METHOD_CONST = 1 << 3,
+    METHOD_FINAL = 1 << 4,
+    METHOD_OVERRIDE = 1 << 5
 };
 
 
@@ -44,20 +45,17 @@ enum class MethodModifier {
 
 class AbstractClassUnit : public Unit {
 public:
-    virtual void setClassModifiers(const std::vector<std::string>& modifiers) = 0;
+    virtual void setClassModifiers(unsigned int modifiers) = 0;
     virtual void add(const std::shared_ptr<Unit>& unit, AccessModifier access) = 0;
 };
 
-
 class AbstractMethodUnit : public Unit {
 public:
-    virtual void setModifiers(const std::vector<std::string>& modifiers) = 0;
+    virtual void setModifiers(unsigned int modifiers) = 0;
     virtual void add(const std::shared_ptr<Unit>& unit) = 0;
 };
 
-
-class AbstractPrintOperatorUnit : public Unit {
-};
+class AbstractPrintOperatorUnit : public Unit {};
 
 
 #endif // UNIT_H

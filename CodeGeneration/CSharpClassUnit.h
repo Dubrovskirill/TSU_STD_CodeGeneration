@@ -11,22 +11,22 @@
 
 class CSharpClassUnit : public AbstractClassUnit {
 public:
-    explicit CSharpClassUnit(const std::string& name) : m_name(name) {
+    explicit CSharpClassUnit(const std::string& name) : m_name(name), m_classModifiers(CLASS_NONE) {
         m_fields.resize(5); // public, protected, private, default, internal
     }
 
-    void setClassModifiers(const std::vector<std::string>& modifiers) override {
+    void setClassModifiers(unsigned int modifiers) override {
         m_classModifiers = modifiers;
     }
 
     void add(const std::shared_ptr<Unit>& unit, AccessModifier access) override {
         int index;
         switch (access) {
-        case AccessModifier::PUBLIC: index = 0; break;
-        case AccessModifier::PROTECTED: index = 1; break;
-        case AccessModifier::PRIVATE: index = 2; break;
-        case AccessModifier::DEFAULT: index = 3; break;
-        case AccessModifier::INTERNAL: index = 4; break;
+        case PUBLIC: index = 0; break;
+        case PROTECTED: index = 1; break;
+        case PRIVATE: index = 2; break;
+        case DEFAULT: index = 3; break;
+        case INTERNAL: index = 4; break;
         default:
             throw std::runtime_error("Invalid access modifier for C# class.");
         }
@@ -35,10 +35,14 @@ public:
 
     std::string compile() const override {
         std::string result = "namespace MyNamespace\n{\n";
-        for (const auto& mod : m_classModifiers) {
-            if (mod == "abstract" || mod == "sealed" || mod == "static") {
-                result += mod + " ";
-            }
+        if (m_classModifiers & CLASS_ABSTRACT) {
+            result += "abstract ";
+        }
+        if (m_classModifiers & CLASS_FINAL) {
+            result += "sealed ";
+        }
+        if (m_classModifiers & CLASS_STATIC) {
+            result += "static ";
         }
         result += "class " + m_name + "\n{\n";
         const std::vector<std::string> accessStrings = {
@@ -74,8 +78,16 @@ public:
 
 private:
     std::string m_name;
-    std::vector<std::string> m_classModifiers;
+    unsigned int m_classModifiers;
     std::vector<std::vector<std::shared_ptr<Unit>>> m_fields;
+};
+
+// Точка входа для C#
+class CSharpMainUnit : public Unit {
+public:
+    std::string compile() const override {
+        return "class Program {\n    static void Main(string[] args) {\n        MyClass.TestFunc4();\n    }\n}\n";
+    }
 };
 
 #endif // CSHARPCLASSUNIT_H

@@ -7,30 +7,32 @@
 #include "CSharpFactory.h"
 #include "JavaFactory.h"
 
+
+
 std::string generateProgram(const AbstractFactory& factory) {
     auto myClass = factory.createClassUnit("MyClass");
 
     // Метод 1: public, без модификаторов
     auto method1 = factory.createMethodUnit("testFunc1", "void");
-    method1->setModifiers({});
-    myClass->add(method1, AccessModifier::PUBLIC);
+    method1->setModifiers(METHOD_NONE);
+    myClass->add(method1, PUBLIC);
 
     // Метод 2: private, static
     auto method2 = factory.createMethodUnit("testFunc2", "void");
-    method2->setModifiers({"static"});
-    myClass->add(method2, AccessModifier::PRIVATE);
+    method2->setModifiers(METHOD_STATIC);
+    myClass->add(method2, PRIVATE);
 
-    // Метод 3: public, virtual/abstract
+    // Метод 3: public, abstract
     auto method3 = factory.createMethodUnit("testFunc3", "void");
-    method3->setModifiers({"abstract"}); // Фабрика сама определит, использовать abstract или virtual
-    myClass->add(method3, AccessModifier::PUBLIC);
+    method3->setModifiers(METHOD_ABSTRACT);
+    myClass->add(method3, PUBLIC);
 
     // Метод 4: protected, static, с выводом текста
     auto method4 = factory.createMethodUnit("testFunc4", "void");
-    method4->setModifiers({"static", "public"});
+    method4->setModifiers(METHOD_STATIC);
     auto printOp = factory.createPrintOperatorUnit("Hello, world!");
     method4->add(printOp);
-    myClass->add(method4, AccessModifier::PROTECTED);
+    myClass->add(method4, PROTECTED);
 
     std::string result = myClass->compile();
 

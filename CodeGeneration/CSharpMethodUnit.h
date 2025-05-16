@@ -12,9 +12,9 @@
 class CSharpMethodUnit : public AbstractMethodUnit {
 public:
     CSharpMethodUnit(const std::string& name, const std::string& returnType)
-        : m_name(name), m_returnType(returnType) {}
+        : m_name(name), m_returnType(returnType), m_modifiers(METHOD_NONE) {}
 
-    void setModifiers(const std::vector<std::string>& modifiers) override {
+    void setModifiers(unsigned int modifiers) override {
         m_modifiers = modifiers;
     }
 
@@ -24,23 +24,38 @@ public:
 
     std::string compile() const override {
         std::string result;
-        for (const auto& mod : m_modifiers) {
-            if (mod == "static" || mod == "virtual" || mod == "abstract" || mod == "override" || mod == "sealed") {
-                result += mod + " ";
+        if (m_modifiers & METHOD_STATIC) {
+            result += "static ";
+        }
+        if (m_modifiers & METHOD_ABSTRACT) {
+            result += "abstract ";
+        }
+        if (m_modifiers & METHOD_VIRTUAL) {
+            result += "virtual ";
+        }
+        if (m_modifiers & METHOD_OVERRIDE) {
+            result += "override ";
+        }
+        if (m_modifiers & METHOD_FINAL) {
+            result += "sealed ";
+        }
+        result += m_returnType + " " + m_name + "()";
+        if (m_modifiers & METHOD_ABSTRACT) {
+            result += ";\n";
+        } else {
+            result += " {\n";
+            for (const auto& unit : m_body) {
+                result += "    " + unit->compile();
             }
+            result += "    }\n";
         }
-        result += m_returnType + " " + m_name + "()" + " {\n";
-        for (const auto& unit : m_body) {
-            result += unit->compile();
-        }
-        result += "    }\n";
         return result;
     }
 
 private:
     std::string m_name;
     std::string m_returnType;
-    std::vector<std::string> m_modifiers;
+    unsigned int m_modifiers;
     std::vector<std::shared_ptr<Unit>> m_body;
 };
 

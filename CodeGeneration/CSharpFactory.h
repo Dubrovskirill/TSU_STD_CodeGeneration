@@ -7,24 +7,18 @@
 #include "CSharpMethodUnit.h"
 #include "CSharpPrintOperatorUnit.h"
 
-class CSharpMainUnit : public Unit {
-public:
-    std::string compile() const override {
-        return "class Program {\n    static void Main(string[] args) {\n        MyClass.TestFunc4();\n    }\n}\n";
-    }
-};
 
 class CSharpFactory : public AbstractFactory {
 public:
     std::shared_ptr<AbstractClassUnit> createClassUnit(const std::string& name) const override {
         auto unit = std::make_shared<CSharpClassUnit>(name);
-        unit->setClassModifiers({"abstract"}); // Устанавливаем abstract по умолчанию
+        unit->setClassModifiers(CLASS_ABSTRACT);
         return unit;
     }
 
     std::shared_ptr<AbstractMethodUnit> createMethodUnit(
         const std::string& name, const std::string& returnType) const override {
-        return std::make_shared<CSharpMethodUnit>("Test" + name, returnType); // Преобразуем в PascalCase
+        return std::make_shared<CSharpMethodUnit>("Test" + name, returnType);
     }
 
     std::shared_ptr<AbstractPrintOperatorUnit> createPrintOperatorUnit(
@@ -36,5 +30,4 @@ public:
         return std::make_shared<CSharpMainUnit>();
     }
 };
-
 #endif // CSHARPFACTORY_H

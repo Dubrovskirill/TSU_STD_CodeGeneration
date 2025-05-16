@@ -11,20 +11,23 @@
 
 class CppClassUnit : public AbstractClassUnit {
 public:
-    explicit CppClassUnit(const std::string& name) : m_name(name) {
-        m_fields.resize(3);  // public, protected, private
+    explicit CppClassUnit(const std::string& name) : m_name(name), m_classModifiers(CLASS_NONE) {
+        m_fields.resize(3); // public, protected, private
     }
 
-    void setClassModifiers(const std::vector<std::string>& /*modifiers*/) override {
-        std::cerr << "Warning: Class modifiers are not supported in C++." << std::endl;
+    void setClassModifiers(unsigned int modifiers) override {
+        m_classModifiers = modifiers;
+        if (m_classModifiers != CLASS_NONE) {
+            std::cerr << "Warning: Class modifiers are not supported in C++." << std::endl;
+        }
     }
 
     void add(const std::shared_ptr<Unit>& unit, AccessModifier access) override {
         int index;
         switch (access) {
-        case AccessModifier::PUBLIC: index = 0; break;
-        case AccessModifier::PROTECTED: index = 1; break;
-        case AccessModifier::PRIVATE: index = 2; break;
+        case PUBLIC: index = 0; break;
+        case PROTECTED: index = 1; break;
+        case PRIVATE: index = 2; break;
         default:
             throw std::runtime_error("Invalid access modifier for C++ class.");
         }
@@ -60,6 +63,7 @@ public:
 
 private:
     std::string m_name;
+    unsigned int m_classModifiers;
     std::vector<std::vector<std::shared_ptr<Unit>>> m_fields;
 };
 
